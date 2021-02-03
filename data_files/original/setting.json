@@ -1,0 +1,6 @@
+{
+  "testcase_1": "TestcaseStructure.json",
+  "testcase_2": "TestcaseStructure_reformat.json",
+  "value": "Values.json",
+  "expected_result": "StructureWithValues.json"
+}
