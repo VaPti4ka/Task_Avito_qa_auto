@@ -16,37 +16,39 @@ class MakeStructure:
         with open(filename, encoding='utf-8') as file:
             return json.load(file)
 
+
     def make_result_file(self):
         with open(self.filepath_created + "res_file.json", "w", encoding="utf-8") as file:
             json.dump(self.result, file, indent=2)
 
+
     def make_structure(self):
         self.result = self.testcase.copy()
-        for parameter in self.result["params"]:
-            if "values" in parameter.keys():
-                parameter["value"] = self.get_value_from_values(parameter["id"], parameter['values'])
-                # print(parameter)
-            else:
-                parameter["value"] = self.get_value_from_file(parameter["id"])
-
+        self.set_param_value(self.result["params"])
         self.make_result_file()
 
-    def get_value_from_values(self, par_id, values):
-        value = self.get_value_from_file(par_id)
-        value = values[0]['title'] if value == "" else value
-        # print(value)
-        if "params" in values[0]:
-            print(values[0])
-            self.set_param_value(values)
-        return value
 
     def set_param_value(self, params):
         for parameter in params:
             if "values" in parameter.keys():
-                parameter["value"] = self.get_value_from_values(parameter["id"], parameter['values'])
-            else:
                 pass
+                parameter["value"] = self.get_value_from_values(parameter["id"], parameter['values'])
+            elif "value" in parameter.keys():
                 parameter["value"] = self.get_value_from_file(parameter["id"])
+
+
+    def get_value_from_values(self, par_id, values):
+        val_id = self.get_value_from_file(par_id)
+        value = ""
+        for val in values:
+            if val['id'] == val_id:
+                value = val['title']
+            if "params" in val:
+                self.set_param_value(val["params"])
+        if value == "" and val_id != "":
+            value = values[0]['title']
+        return value
+
 
     def get_value_from_file(self, elem_id):
         for elem in self.values:
