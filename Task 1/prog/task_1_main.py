@@ -8,21 +8,31 @@ class MakeStructure:
 
     def __init__(self):
         self.setting = self.get_data_from_file(self.filepath_origin + "setting.json")
+        self.error_messg = {"error": self.setting["error"]}
         self.testcase = self.get_data_from_file(self.filepath_origin + self.setting["testcase_2"])
         self.values = self.get_data_from_file(self.filepath_origin + self.setting["value"])["values"]
         self.result = None
 
+        if "Input error" in self.__dict__.values():
+            self.make_error_file()
+            print("Поданы некорректные файлы, завершение работы программы.")
+            raise SystemExit
 
-    # Возвращает содержимое JSON файла
-    @staticmethod
-    def get_data_from_file(filename):
-        with open(filename, "r", encoding='utf-8') as file:
-            return json.load(file)
+
+    # Возвращает содержимое JSON файл
+    def get_data_from_file(self, filename):
+        try:
+            with open(filename, "r", encoding='utf-8') as file:
+                return json.load(file)
+        except:
+            self.error_messg["error"]["broken_file"] = filename
+            return ("Input error")
+
 
 
     # Записываем исправленную структуру в файл. Если не было - создается
     def make_result_file(self):
-        with open(self.filepath_created + "res_file.json", "w", encoding="utf-8") as file:
+        with open(self.filepath_created + self.setting["result"], "w", encoding="utf-8") as file:
             json.dump(self.result, file, indent=2, ensure_ascii=False)
 
     # Рекурсивная фун-я исправления структуры
@@ -59,6 +69,12 @@ class MakeStructure:
             if elem["id"] == elem_id:
                 return elem["value"]
         return ""
+
+    # Обрабатывает некорректно введенные данные
+    def make_error_file(self):
+        with open(self.filepath_created + self.setting["error_messg"], "w", encoding="utf-8") as file:
+            json.dump(self.error_messg, file, indent=2, ensure_ascii=False)
+
 
 
 test_case = MakeStructure()
