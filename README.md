@@ -1,3 +1,5 @@
+## Задание: github.com/avito-tech/qa-into-CoE-trainee-task
+
 # Комментарии по заданию
 ## 1) Файл TestcaseStructure.json
 Файл TestcaseStructure.json имеет ошибки по формату .json
@@ -20,3 +22,5 @@
 ##1) Исходные данные лежат в data_files/original
 В setting.json: testcase_1 -> оригинальный файл с заданием, testcase_2 -> исправленный
 ##2) Результат в data_files/created
+
+[]: https://github.com/avito-tech/qa-into-CoE-trainee-task
