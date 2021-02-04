@@ -13,22 +13,35 @@ def test_general():
         correct_result = json.load(file)
 
     if test_result == correct_result:
-        print("General test PASSED")
+        print("PASSED: General test")
     else:
-        print("General test FAILED")
+        print("FAILED: General test")
 
 
 # Проверка подгрузки данных их файлов
 def test_get_data_from_file(case, files):
-    # 0 - Удалось, 1 - Ошибка
-
     for res, file in files:
         if res != case.get_data_from_file(file):
-            print("Loading data test FAILED\nОшибка обработки файла", file)
+            print("FAILED: Loading data test\nОшибка обработки файла", file)
             break
         else:
             pass
-    print("Loading data test PASSED")
+    print("PASSED: Loading data test")
+
+# TODO не работает чего-то, надо на лекцию
+def test_get_value_from_file(case, test_data, test_json):
+    tmp = case.values
+    case.values = test_json
+    for test_id, test_res in test_data:
+        res = case.get_value_from_file(test_id)
+        if res != test_res:
+            print("FAILED: Get value from file test")
+            case.values = tmp
+            break
+        else:
+            pass
+    case.values = tmp
+    print("PASSED: Get value from file test ")
 
 
 # Создаем инстанс класса MakeStructure
@@ -38,4 +51,7 @@ test_test = ms()
 test_files = [({"pos1": "info", "pos2": "Info"}, "correct.json"), ("Input error", "incorrect_1.json")]
 test_get_data_from_file(test_test, test_files)
 
-
+# Проверка функции, вынимающий значения из файла Values.json
+# test_data = [(id, value)]
+test_list = [{"id": 12, "value": 6}, {"id": 78, "value": "6"}, {"id": 1158, "value": "Some text"}]
+test_get_value_from_file(test_test, [(12, 6), (78, "6"), (100, "Another Text")], test_list)
