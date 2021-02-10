@@ -3,7 +3,7 @@
   "testcase_2": "TestcaseStructure_reformat.json",
   "value": "Values.json",
   "expected_result": "StructureWithValues.json",
-  "result": "res_file.json",
+  "result": "StructureWithValues.json",
   "error_messg": "error.json",
   "error": {
     "message": "Входные файлы неккоректны"
