@@ -2,9 +2,8 @@ import json
 
 
 class MakeStructure:
-    filepath_origin = "../data_files/original/"
-    filepath_created = "../data_files/created/"
-
+    filepath_origin = r"../data_files/original/"
+    filepath_created = r"../data_files/created/"
 
     def __init__(self):
         self.setting = self.get_data_from_file(self.filepath_origin + "setting.json")
@@ -18,7 +17,6 @@ class MakeStructure:
             print("Поданы некорректные файлы, завершение работы программы.")
             raise SystemExit
 
-
     # Возвращает содержимое JSON файл
     def get_data_from_file(self, filename):
         try:
@@ -26,9 +24,7 @@ class MakeStructure:
                 return json.load(file)
         except:
             self.error_messg["error"]["broken_file"] = filename
-            return ("Input error")
-
-
+            return "Input error"
 
     # Записываем исправленную структуру в файл. Если не было - создается
     def make_result_file(self):
@@ -48,7 +44,6 @@ class MakeStructure:
                 parameter["value"] = self.get_value_from_values(parameter["id"], parameter['values'])
             elif "value" in parameter.keys():
                 parameter["value"] = self.get_value_from_file(parameter["id"])
-
 
     # Проверяет текущий уровень на наличие вложенных params, выбирает и возвращает значение values
     def get_value_from_values(self, par_id, values):
@@ -74,7 +69,6 @@ class MakeStructure:
     def make_error_file(self):
         with open(self.filepath_created + self.setting["error_messg"], "w", encoding="utf-8") as file:
             json.dump(self.error_messg, file, indent=2, ensure_ascii=False)
-
 
 
 test_case = MakeStructure()
